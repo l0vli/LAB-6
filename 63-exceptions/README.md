@@ -1,18 +1,18 @@
 # Exceptions playground
 
-### Check arguments correctness and throw RuntimeExceptions
+### Check arguments correctness and throw RuntimeExceptions DONE
 
 Inside the constructor `ServiceBehindUnstableNetwork(double, int)`,
 add a check that the probability is within 0 (included) and 1 (excluded).
 If the check fails, it must throw an `IllegalArgumentException` with an appropriate message.
 
-### Catch existing exceptions
+### Catch existing exceptions DONE 
 
 Implement the methods `UseArithmeticService.retrySendOnNetworkError`
 and `UseArithmeticService.retryReceiveOnNetworkError`
 as described in the source code.
 
-### Design new exceptions
+### Design new exceptions DONE
 
 Create a `NetworkException extends IOException` with two constructors.
 The 0-ary constructor must create an Exception whose message is "Network error: no response".
@@ -20,9 +20,9 @@ The 1-ary constructor must take a String as input, and create a message "Network
 
 Modify `ServiceBehindUnstableNetwork.accessTheNetwork()`
 in such a way that it throws the new Exception.
-Notice that the blocks that used to catch `IOException` still work.
+Notice that the blocks that used to catch `IOException` still work. (both checked)
 
-### Check the arguments' correctness and preserve the stacktrace on rethrows
+### Check the arguments' correctness and preserve the stacktrace on rethrows DONE
 
 Modify `ServiceBehindUnstableNetwork.sendData` in such a way that,
 instead of printing, throws an IllegalArgumentException with the same message.
@@ -30,7 +30,7 @@ instead of printing, throws an IllegalArgumentException with the same message.
 **Note:** the newly thrown exception must *preserve* the stacktrace of the original
 `NumberFormatException` (which must be set as exception cause).
 
-### Use exceptions to mark exceptional state
+### Use exceptions to mark exceptional state DONE
 
 Remove all `println`s from `ArithmeticService`: when the system enters an inconsistent state,
 an `IllegalStateException` with the same message of the print should be thrown.

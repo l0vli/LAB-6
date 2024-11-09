@@ -1,5 +1,6 @@
 package it.unibo.exceptions.fakenetwork.impl;
 
+import it.unibo.exceptions.NetworkException;
 import it.unibo.exceptions.arithmetic.ArithmeticService;
 import it.unibo.exceptions.fakenetwork.api.NetworkComponent;
 
@@ -25,25 +26,30 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
      * @param failProbability the probability that a network communication fails
      * @param randomSeed random generator seed for reproducibility
      */
-    public ServiceBehindUnstableNetwork(final double failProbability, final int randomSeed) {
+    public ServiceBehindUnstableNetwork(final double failProbability, final int randomSeed) throws NetworkException{
         /*
          * The probability should be in [0, 1[!
          */
         this.failProbability = failProbability;
+
+        if (!(failProbability >= 0 && failProbability < 1)){         // è un'eccezione checked devo usare throws per dichiararla
+            throw new NetworkException("fail probability not adequate");
+        }
+         
         randomGenerator = new Random(randomSeed);
     }
 
     /**
      * @param failProbability the probability that a network communication fails
      */
-    public ServiceBehindUnstableNetwork(final double failProbability) {
+    public ServiceBehindUnstableNetwork(final double failProbability) throws NetworkException{
         this(failProbability, 0);
     }
 
     /**
      * Builds a new service with an unstable network.
      */
-    public ServiceBehindUnstableNetwork() {
+    public ServiceBehindUnstableNetwork() throws NetworkException{
         this(0.5);
     }
 
@@ -55,8 +61,8 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
             commandQueue.add(data);
         } else {
             final var message = data + " is not a valid keyword (allowed: " + KEYWORDS + "), nor is a number";
-            System.out.println(message);
             commandQueue.clear();
+            throw new IllegalArgumentException(message, exceptionWhenParsedAsNumber); // message and cause
             /*
              * This method, in this point, should throw an IllegalStateException.
              * Its cause, however, is the previous NumberFormatException.
